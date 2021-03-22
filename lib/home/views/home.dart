@@ -1,3 +1,7 @@
+import 'package:biher_noticeboard/events/views/events.dart';
+import 'package:biher_noticeboard/menu/views/settings.dart';
+import 'package:biher_noticeboard/notes/views/notes.dart';
+import 'package:biher_noticeboard/noticeboard/views/noticeboard.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -10,10 +14,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  List<Widget> pages = [
+    NotesPage(),
+    NoticeBoardPage(),
+    EventsPage(),
+    MenuPage(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: pages[_currentIndex],
       bottomNavigationBar: SalomonBottomBar(
         margin: EdgeInsets.only(
           bottom: 15.h,
@@ -23,25 +33,25 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
         items: [
-          /// Home
+          //Notes
           SalomonBottomBarItem(
             icon: Icon(FontAwesomeIcons.stickyNote),
             title: Text("Notes"),
           ),
 
-          /// Likes
+          //Notification
           SalomonBottomBarItem(
             icon: Icon(FontAwesomeIcons.envelope),
             title: Text("Notification"),
           ),
 
-          /// Search
+          //Events
           SalomonBottomBarItem(
             icon: Icon(Icons.event),
             title: Text("Events"),
           ),
 
-          /// Profile
+          //Menu
           SalomonBottomBarItem(
             icon: Icon(FontAwesomeIcons.bars),
             title: Text("Menu"),

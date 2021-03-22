@@ -4,8 +4,8 @@ import 'package:biher_noticeboard/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-Route<dynamic> onGenerateRoute(RouteSettings? settings) {
-  switch (settings!.name) {
+Route<dynamic> onGenerateRoute(RouteSettings settings) {
+  switch (settings.name) {
     case into:
       return MaterialPageRoute(
         builder: (_) => IntoScreenPage(),

@@ -34,8 +34,12 @@ class IntoScreenPage extends StatelessWidget {
           FontAwesomeIcons.check,
           color: Colors.grey[900],
         ),
-        onSkip: navigateTohome(context),
-        onDone: navigateTohome(context),
+        onSkip: () {
+          navigateTohome(context);
+        },
+        onDone: () {
+          navigateTohome(context);
+        },
       ),
     );
   }
