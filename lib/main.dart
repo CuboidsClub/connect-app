@@ -1,5 +1,6 @@
+import 'package:biher_noticeboard/home/views/home.dart';
+import 'package:biher_noticeboard/into/into.dart';
 import 'package:biher_noticeboard/theme.dart';
-import 'package:biher_noticeboard/utils/constants.dart';
 import 'package:biher_noticeboard/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,9 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'models/notes.dart';
+
 void main() async {
   await Hive.initFlutter();
-  await Hive.openBox('notes');
+  Hive.registerAdapter(NotesAdapter());
   runApp(
     NoticeBoard(),
   );
@@ -23,12 +26,38 @@ class NoticeBoard extends StatelessWidget {
       statusBarColor: Colors.transparent, // status bar color
       statusBarIconBrightness: Brightness.dark,
     ));
-    return ScreenUtilInit(
-      builder: () => MaterialApp(
-        theme: lightTheme,
-        onGenerateRoute: onGenerateRoute,
-        initialRoute: into,
-      ),
+
+    //To check the user as see the into screen or not
+    Widget getProperView(AsyncSnapshot<List> snapshot) {
+      if (snapshot.data![0].containsKey('intoShown')) {
+        return snapshot.data![0].get('intoShown')
+            ? HomePage()
+            : IntoScreenPage();
+      } else {
+        return IntoScreenPage();
+      }
+    }
+
+    return FutureBuilder(
+      future: Future.wait([
+        Hive.openBox('general'),
+        Hive.openBox('notes'),
+        Hive.openBox('notification'),
+        Hive.openBox('events')
+      ]),
+      builder: (context, AsyncSnapshot<List<Box>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return ScreenUtilInit(
+            builder: () => MaterialApp(
+              theme: lightTheme,
+              onGenerateRoute: onGenerateRoute,
+              home: getProperView(snapshot),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 }

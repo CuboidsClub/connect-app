@@ -1,3 +1,5 @@
+import 'package:biher_noticeboard/models/notes.dart';
+import 'package:biher_noticeboard/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,7 +18,9 @@ class NotesPage extends StatelessWidget {
         padding: EdgeInsets.all(5.w),
         child: FloatingActionButton(
           backgroundColor: Colors.red,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, addNotes);
+          },
           child: Icon(FontAwesomeIcons.plus),
         ),
       ),
@@ -26,10 +30,41 @@ class NotesPage extends StatelessWidget {
           if (box.isEmpty) {
             return NoNotesFound();
           } else {
-            return Container();
+            return NotesFound();
           }
         },
       ),
+    );
+  }
+}
+
+class NotesFound extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Box notes = Hive.box('notes');
+    return GridView.builder(
+      padding: EdgeInsets.all(20.w),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        mainAxisExtent: 180.h,
+      ),
+      itemCount: notes.length,
+      itemBuilder: (BuildContext context, int index) {
+        Notes note = notes.getAt(index);
+        return Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.w),
+          ),
+          child: Column(
+            children: [
+              Text(note.title!),
+              Text(note.content!),
+            ],
+          ),
+        );
+      },
     );
   }
 }
