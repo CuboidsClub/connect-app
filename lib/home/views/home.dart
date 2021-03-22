@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
           left: 20.w,
           right: 20.w,
         ),
+        selectedItemColor: Colors.red,
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
         items: [

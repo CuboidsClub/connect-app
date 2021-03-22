@@ -10,7 +10,6 @@ class IntoScreenPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: IntroductionScreen(
-        globalBackgroundColor: Color(0xfff8f5f1),
         pages: [
           notesTaking(),
           getNotification(),
@@ -20,19 +19,19 @@ class IntoScreenPage extends StatelessWidget {
         showNextButton: true,
         showSkipButton: true,
         dotsDecorator: DotsDecorator(
-          activeColor: Colors.grey[900]!,
+          activeColor: Colors.red,
         ),
         next: Icon(
           FontAwesomeIcons.arrowRight,
-          color: Colors.grey[900],
+          color: Colors.red,
         ),
         skip: Icon(
           FontAwesomeIcons.times,
-          color: Colors.grey[900],
+          color: Colors.red,
         ),
         done: Icon(
           FontAwesomeIcons.check,
-          color: Colors.grey[900],
+          color: Colors.red,
         ),
         onSkip: () {
           navigateTohome(context);
@@ -111,9 +110,9 @@ class IntoScreenPage extends StatelessWidget {
   PageDecoration intoDecoration() {
     return PageDecoration(
       titleTextStyle: TextStyle(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.w800,
-        color: Colors.grey[900],
+        fontSize: 22.sp,
+        fontWeight: FontWeight.w900,
+        color: Colors.red,
       ),
       bodyTextStyle: TextStyle(
         fontWeight: FontWeight.w500,
