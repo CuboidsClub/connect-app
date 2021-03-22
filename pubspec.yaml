@@ -27,10 +27,15 @@ flutter:
   uses-material-design: true
 
   assets:
+    # into
     - assets/into/events.svg
     - assets/into/updates.svg
     - assets/into/notetaking.svg
     - assets/into/notification.svg
+
+    # notes
+    - assets/notes/addnotes.svg
+
   # fonts:
   #   - family: Schyler
   #     fonts:
