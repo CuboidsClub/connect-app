@@ -37,6 +37,7 @@ flutter:
 
     # notes
     - assets/notes/addnotes.svg
+    - assets/notes/notesicon.svg
 
   # fonts:
   #   - family: Schyler

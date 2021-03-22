@@ -18,21 +18,23 @@ class AddNotesViewModel extends ChangeNotifier {
   int? index;
   Box box = Hive.box('notes');
 
-  void deleteNotes() {}
-
   Future<void> titleChanged(String title) async {
     notes = notes.copyWith(
       title: title,
       lastEditedDate: DateTime.now().toLocal().toString(),
     );
-    if (notes.title != '') {
-      await updateBox();
-    }
+
+    await updateBox();
+  }
+
+  Future<void> deleteNotes(int index) async {
+    await box.deleteAt(index);
   }
 
   Future<void> updateBox() async {
     if (index == null) {
-      index = await box.add(notes);
+      await box.add(notes);
+      index = box.length - 1;
     } else {
       await box.putAt(index!, notes);
     }
@@ -44,8 +46,6 @@ class AddNotesViewModel extends ChangeNotifier {
       content: content,
       lastEditedDate: DateTime.now().toLocal().toString(),
     );
-    if (notes.title != '') {
-      await updateBox();
-    }
+    await updateBox();
   }
 }

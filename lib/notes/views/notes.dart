@@ -57,11 +57,40 @@ class NotesFound extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.w),
           ),
-          child: Column(
-            children: [
-              Text(note.title!),
-              Text(note.content!),
-            ],
+          child: InkWell(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                addNotes,
+                arguments: {'note': note, 'index': index},
+              );
+            },
+            child: Padding(
+              padding: EdgeInsets.all(15.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    note.title!,
+                    maxLines: 2,
+                    softWrap: true,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                  Divider(
+                    thickness: 0.8,
+                  ),
+                  Text(
+                    note.content!,
+                    maxLines: 6,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       },
