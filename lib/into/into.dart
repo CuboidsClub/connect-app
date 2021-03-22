@@ -1,3 +1,4 @@
+import 'package:biher_noticeboard/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -33,11 +34,14 @@ class IntoScreenPage extends StatelessWidget {
           FontAwesomeIcons.check,
           color: Colors.grey[900],
         ),
-        onDone: () {
-          // When done button is press
-        },
+        onSkip: navigateTohome(context),
+        onDone: navigateTohome(context),
       ),
     );
+  }
+
+  navigateTohome(context) {
+    Navigator.pushReplacementNamed(context, home);
   }
 
   PageViewModel seeEvents() {

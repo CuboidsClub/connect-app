@@ -9,14 +9,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.2
-  flutter_svg: ^0.21.0-nullsafety.0
-  provider: ^5.0.0
-  introduction_screen: ^2.0.0
-  google_nav_bar: ^5.0.3
   flutter_screenutil: ^5.0.0-nullsafety.11
+  flutter_svg: ^0.21.0-nullsafety.0
   font_awesome_flutter: ^9.0.0
+  hive: ^2.0.0
+  hive_flutter: ^1.0.0
+  introduction_screen: ^2.0.0
+  provider: ^5.0.0
+  salomon_bottom_bar: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -30,7 +31,6 @@ flutter:
     - assets/into/updates.svg
     - assets/into/notetaking.svg
     - assets/into/notification.svg
-
   # fonts:
   #   - family: Schyler
   #     fonts:
