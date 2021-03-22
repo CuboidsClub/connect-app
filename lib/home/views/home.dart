@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: SalomonBottomBar(
         margin: EdgeInsets.only(
           bottom: 15.h,
+          top: 15.h,
           left: 20.w,
           right: 20.w,
         ),

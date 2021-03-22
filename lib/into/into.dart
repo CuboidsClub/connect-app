@@ -1,7 +1,8 @@
-import 'package:biher_noticeboard/utils/constants.dart';
+import 'package:biher_noticeboard/home/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -43,8 +44,14 @@ class IntoScreenPage extends StatelessWidget {
     );
   }
 
-  navigateTohome(context) {
-    Navigator.pushReplacementNamed(context, home);
+  navigateTohome(context) async {
+    await Hive.box('general').put('intoShown', true);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(),
+      ),
+    );
   }
 
   PageViewModel seeEvents() {
