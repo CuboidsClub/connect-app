@@ -1,10 +1,11 @@
+import 'package:biher_noticeboard/classroom/views/classroom.dart';
 import 'package:biher_noticeboard/events/views/events.dart';
 import 'package:biher_noticeboard/menu/views/settings.dart';
 import 'package:biher_noticeboard/notes/views/notes.dart';
 import 'package:biher_noticeboard/noticeboard/views/noticeboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> pages = [
     NotesPage(),
     NoticeBoardPage(),
+    ClassRoomPage(),
     EventsPage(),
     MenuPage(),
   ];
@@ -24,41 +26,41 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[_currentIndex],
-      bottomNavigationBar: SalomonBottomBar(
-        margin: EdgeInsets.only(
-          bottom: 15.h,
-          top: 15.h,
-          left: 20.w,
-          right: 20.w,
+      bottomNavigationBar: Container(
+        child: SnakeNavigationBar.color(
+          padding: EdgeInsets.all(10.w),
+          currentIndex: _currentIndex,
+          unselectedItemColor: Colors.black,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          selectedItemColor: Colors.white,
+          snakeViewColor: Colors.red,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.stickyNote),
+              label: 'tickets',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.bullhorn),
+              label: 'calendar',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.restroom),
+              label: 'home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.calendar),
+              label: 'microphone',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.user),
+              label: 'search',
+            )
+          ],
         ),
-        selectedItemColor: Colors.red,
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        items: [
-          //Notes
-          SalomonBottomBarItem(
-            icon: Icon(FontAwesomeIcons.stickyNote),
-            title: Text("Notes"),
-          ),
-
-          //Notification
-          SalomonBottomBarItem(
-            icon: Icon(FontAwesomeIcons.envelope),
-            title: Text("Notification"),
-          ),
-
-          //Events
-          SalomonBottomBarItem(
-            icon: Icon(Icons.event),
-            title: Text("Events"),
-          ),
-
-          //Menu
-          SalomonBottomBarItem(
-            icon: Icon(FontAwesomeIcons.bars),
-            title: Text("Menu"),
-          ),
-        ],
       ),
     );
   }
