@@ -12,7 +12,6 @@ class AddNotes extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => AddNotesViewModel(notes, index),
-      builder: (context, child) => child!,
       child: Scaffold(
         appBar: AppBar(
           actions: [
@@ -20,17 +19,26 @@ class AddNotes extends StatelessWidget {
               icon: Icon(Icons.share_outlined),
               onPressed: () {},
             ),
-            IconButton(
-              icon: Icon(Icons.delete_outline),
-              onPressed: () {},
+            Consumer<AddNotesViewModel>(
+              builder: (context, data, child) => IconButton(
+                icon: Icon(Icons.delete_outline),
+                onPressed: data.index == null
+                    ? null
+                    : () async {
+                        await context
+                            .read<AddNotesViewModel>()
+                            .deleteNotes(index!);
+                        Navigator.pop(context);
+                      },
+              ),
             ),
           ],
         ),
         body: ListView(
           padding: EdgeInsets.only(top: 12.h, left: 20.w, right: 20.w),
           children: [
-            AddNotesTitle(),
-            AddNotesContent(),
+            AddNotesTitle(notes == null ? null : notes!.title),
+            AddNotesContent(notes == null ? null : notes!.content),
           ],
         ),
       ),
@@ -39,13 +47,16 @@ class AddNotes extends StatelessWidget {
 }
 
 class AddNotesTitle extends StatelessWidget {
+  const AddNotesTitle(this.title);
+  final String? title;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
+        TextFormField(
           minLines: 1,
           maxLines: 2,
+          initialValue: title,
           onChanged: (String title) =>
               context.read<AddNotesViewModel>().titleChanged(title),
           style: TextStyle(
@@ -62,11 +73,8 @@ class AddNotesTitle extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(top: 6.h, bottom: 6.h),
-          width: 1.sw,
-          height: 0.0010.sh,
-          color: Colors.black,
+        Divider(
+          thickness: 1,
         ),
       ],
     );
@@ -74,9 +82,12 @@ class AddNotesTitle extends StatelessWidget {
 }
 
 class AddNotesContent extends StatelessWidget {
+  const AddNotesContent(this.content);
+  final String? content;
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      initialValue: content,
       maxLines: 100,
       minLines: 1,
       onChanged: (String content) =>

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData lightTheme = ThemeData(
   textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.red),
+  scaffoldBackgroundColor: Colors.white,
   appBarTheme: AppBarTheme(
     color: Colors.transparent,
     elevation: 0,
