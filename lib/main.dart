@@ -2,13 +2,18 @@ import 'package:biher_noticeboard/home/views/home.dart';
 import 'package:biher_noticeboard/into/into.dart';
 import 'package:biher_noticeboard/theme.dart';
 import 'package:biher_noticeboard/utils/routes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
+import 'home/views/home.dart';
 import 'models/notes.dart';
+import 'sign_in/viewmodel/authviewModel.dart';
+import 'sign_in/views/login_page.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -31,7 +36,23 @@ class NoticeBoard extends StatelessWidget {
     Widget getProperView(AsyncSnapshot<List> snapshot) {
       if (snapshot.data![0].containsKey('intoShown')) {
         return snapshot.data![0].get('intoShown')
-            ? HomePage()
+            ? ChangeNotifierProvider(
+                create: (_) => UserRepository.instance(),
+                child: Consumer(
+                  builder: (context, UserRepository user, _) {
+                    switch (user.status) {
+                      case Status.Uninitialized:
+                        return Container();
+                      case Status.Unauthenticated:
+                        return LoginPage();
+                      case Status.Authenticating:
+
+                      case Status.Authenticated:
+                        return HomePage();
+                    }
+                  },
+                ),
+              )
             : IntoScreenPage();
       } else {
         return IntoScreenPage();
@@ -43,9 +64,10 @@ class NoticeBoard extends StatelessWidget {
         Hive.openBox('general'),
         Hive.openBox('notes'),
         Hive.openBox('notification'),
-        Hive.openBox('events')
+        Hive.openBox('events'),
+        Firebase.initializeApp(),
       ]),
-      builder: (context, AsyncSnapshot<List<Box>> snapshot) {
+      builder: (context, AsyncSnapshot<List> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return ScreenUtilInit(
             builder: () => MaterialApp(

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ClassRoomPage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Classes'),
-      ),
+      body: Container(),
     );
   }
 }
