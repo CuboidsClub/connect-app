@@ -1,11 +1,10 @@
 import 'package:biher_noticeboard/classroom/views/classroom.dart';
 import 'package:biher_noticeboard/events/views/events.dart';
-import 'package:biher_noticeboard/menu/views/settings.dart';
 import 'package:biher_noticeboard/notes/views/notes.dart';
 import 'package:biher_noticeboard/noticeboard/views/noticeboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,47 +19,37 @@ class _HomePageState extends State<HomePage> {
     NoticeBoardPage(),
     ClassRoomPage(),
     EventsPage(),
-    MenuPage(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[_currentIndex],
-      bottomNavigationBar: Container(
-        child: SnakeNavigationBar.color(
-          padding: EdgeInsets.all(10.w),
-          currentIndex: _currentIndex,
-          unselectedItemColor: Colors.black,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          selectedItemColor: Colors.white,
-          snakeViewColor: Colors.red,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.stickyNote),
-              label: 'tickets',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.bullhorn),
-              label: 'calendar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.restroom),
-              label: 'home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.calendar),
-              label: 'microphone',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.user),
-              label: 'search',
-            )
-          ],
-        ),
+      bottomNavigationBar: SalomonBottomBar(
+        margin: EdgeInsets.all(16.w),
+        currentIndex: _currentIndex,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          SalomonBottomBarItem(
+            icon: Icon(FontAwesome5.notes_medical),
+            title: Text("Notes"),
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(FontAwesome5.notes_medical),
+            title: Text("Announement"),
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(FontAwesome5.notes_medical),
+            title: Text("Classes"),
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(FontAwesome5.notes_medical),
+            title: Text("Schedule"),
+          ),
+        ],
       ),
     );
   }

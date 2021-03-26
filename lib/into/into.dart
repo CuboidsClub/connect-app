@@ -1,7 +1,8 @@
 import 'package:biher_noticeboard/home/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
+
 import 'package:hive/hive.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,15 +24,15 @@ class IntoScreenPage extends StatelessWidget {
           activeColor: Colors.red,
         ),
         next: Icon(
-          FontAwesomeIcons.arrowRight,
+          FontAwesome.right,
           color: Colors.red,
         ),
         skip: Icon(
-          FontAwesomeIcons.times,
+          FontAwesome.safari,
           color: Colors.red,
         ),
         done: Icon(
-          FontAwesomeIcons.check,
+          FontAwesome.check,
           color: Colors.red,
         ),
         onSkip: () {

@@ -2,7 +2,7 @@ import 'package:biher_noticeboard/models/notes.dart';
 import 'package:biher_noticeboard/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +21,7 @@ class NotesPage extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, addNotes);
           },
-          child: Icon(FontAwesomeIcons.plus),
+          child: Icon(FontAwesome5.plus),
         ),
       ),
       body: ValueListenableBuilder(
@@ -136,7 +136,7 @@ class NoNotesFound extends StatelessWidget {
           width: 8.w,
         ),
         Icon(
-          FontAwesomeIcons.plusCircle,
+          FontAwesome5.plus_circle,
           color: Colors.red,
         ),
         SizedBox(
