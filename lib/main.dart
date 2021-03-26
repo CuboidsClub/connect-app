@@ -45,8 +45,6 @@ class NoticeBoard extends StatelessWidget {
                         return Container();
                       case Status.Unauthenticated:
                         return LoginPage();
-                      case Status.Authenticating:
-
                       case Status.Authenticated:
                         return HomePage();
                     }

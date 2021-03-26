@@ -1,8 +1,10 @@
+import 'package:biher_noticeboard/sign_in/views/otp_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
+enum Status { Uninitialized, Authenticated, Unauthenticated }
 
 class UserRepository with ChangeNotifier {
   FirebaseAuth _auth;
@@ -11,6 +13,7 @@ class UserRepository with ChangeNotifier {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String verificationID = '';
   String? error;
+  bool loading = false;
 
   UserRepository.instance() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen((user) {
@@ -21,18 +24,18 @@ class UserRepository with ChangeNotifier {
   Status get status => _status;
   User get user => _user;
 
-  Future<void> signIn(String id, String phone) async {
+  Future<void> signIn(String id, String phone, BuildContext context) async {
     try {
-      _status = Status.Authenticating;
       notifyListeners();
+      loading = true;
       QuerySnapshot snapshot = await _firestore
           .collection('users')
           .where('id', isEqualTo: id)
           .where('phone', isEqualTo: phone)
-          .limit(1)
           .get();
-      if (snapshot.size == 0) {
+      if (snapshot.docs.length < 0) {
         error = 'Your employee id or phone didnt match';
+        showMessage(context);
       } else {
         await _auth.verifyPhoneNumber(
           phoneNumber: phone,
@@ -40,16 +43,20 @@ class UserRepository with ChangeNotifier {
             await _auth.signInWithCredential(credential);
           },
           verificationFailed: (FirebaseAuthException e) {},
-          codeSent: (String verificationId, int? resendToken) {},
-          codeAutoRetrievalTimeout: (String verificationId) {
+          codeSent: (String verificationId, int? resendToken) {
             verificationID = verificationId;
+            navigateTo(context);
           },
+          codeAutoRetrievalTimeout: (String verificationId) {},
         );
       }
+      loading = false;
       notifyListeners();
     } catch (e) {
+      loading = false;
       _status = Status.Unauthenticated;
-      error = 'SomeThing went wrong, Please try again';
+      error = 'Something went wrong, Please try again';
+      showMessage(context);
       notifyListeners();
     }
   }
@@ -64,11 +71,23 @@ class UserRepository with ChangeNotifier {
     await _auth.signInWithCredential(phoneAuthCredential);
   }
 
-  Future signOut() async {
-    _auth.signOut();
-    _status = Status.Unauthenticated;
+  navigateTo(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => OtpPage()));
+  }
+
+  showMessage(BuildContext context) {
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error!),
+        ),
+      );
+    }
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
     notifyListeners();
-    return Future.delayed(Duration.zero);
   }
 
   Future<void> _onAuthStateChanged(User? firebaseUser) async {
